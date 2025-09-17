@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator; //사용할 애니메이터 컴포넌트
     private AudioSource playerAudio; //사용할 오디오 소스 컴포넌트
     
-    private void start()
+    private void Start()
     {
        //게임 오브젝트로부터 사용할 컴포넌트들을 가져와 변수에 할당
        playerRigidbody = GetComponent<Rigidbody2D>();
@@ -79,12 +79,20 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //바닥에 닿았음르 감지하는 처리
+        //어떤 콜라이더와 닿았으며, 충돌 표면이 위쪽을 보고 있으면 
+        if (collision.contacts[0].normal.y > 0.7f)
+        {
+            //isGrounded를 true 로 변경하고 누적 점프 횟수를 0으로 리셋
+            isGrounded = true;
+            jumpCount = 0;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        //바닥에서 벗어났음을 감지하는 처리
+        //어떤 콜라이더에서 떼어진 경우 isGrounded를 false 로변경
+        isGrounded = false;
     }
+   
 
 }
